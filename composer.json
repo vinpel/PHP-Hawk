@@ -1,0 +1,38 @@
+{
+	"name": "alexbilbie/hawk",
+	"description": "Hawk authorisation",
+	"version": "1.0",
+	"homepage": "https://github.com/alexbilbie/Hawk",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.3.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "*"
+	},
+	"repositories": [
+		{
+			"type": "git",
+			"url": "https://github.com/alexbilbie/Hawk"
+		}
+	],
+	"keywords": [
+		"hawk",
+		"authorisation",
+		"authorization",
+		"header",
+		"parse",
+		"generate"
+	],
+	"authors": [
+		{
+			"name": "Alex Bilbie",
+			"email": "hello@alexbilbie.com",
+			"homepage": "http://www.alebilbie.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}
