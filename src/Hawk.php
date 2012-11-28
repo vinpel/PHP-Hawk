@@ -1,6 +1,6 @@
 <?php
 /**
- * A class to generate and parse Hawk authorisation headers
+ * A class to generate and parse Hawk authentication headers
  *
  * @author		Alex Bilbie | www.alexbilbie.com | hello@alexbilbie.com
  * @copyright	Copyright (c) 2012, Alex Bilbie.
