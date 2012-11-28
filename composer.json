@@ -1,7 +1,7 @@
 {
 	"name": "alexbilbie/hawk",
-	"description": "Hawk authorisation",
-	"version": "1.0",
+	"description": "Hawk authentication",
+	"version": "1.0.1",
 	"homepage": "https://github.com/alexbilbie/Hawk",
 	"license": "MIT",
 	"require": {
@@ -18,8 +18,7 @@
 	],
 	"keywords": [
 		"hawk",
-		"authorisation",
-		"authorization",
+		"authentication",
 		"header",
 		"parse",
 		"generate"
