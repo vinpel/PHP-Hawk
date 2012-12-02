@@ -61,7 +61,7 @@ $hawk = ''; // the authorisation header
 $hawk_parts = Hawk::parseHeader($hawk);
 
 // Then with your own function, get the secret for the key from the database
-$secret = getSecret($hark_parts['id']);
+$secret = getSecret($hawk_parts['id']);
 
 // Now validate the request
 $valid = Hawk::verifyHeader($hawk, array(
