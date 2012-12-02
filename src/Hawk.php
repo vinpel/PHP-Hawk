@@ -61,9 +61,23 @@ class Hawk {
 	 * @param  array  $params The MAC data parameters
 	 * @return string         The Hawk header string
 	 */
-	public static function generateHeader($key = '', $secret = '', $params = array())
+	public static function generateHeader($key = '', $secret = '', $method = 'GET', $url = array(), $appData = array())
 	{
+		$url = parse_url($url);
+
+		if ( ! isset($url['port']))
+		{
+			$params['port'] = ($url['scheme'] === 'https') ? 443 : 80;
+		} else {
+			$params['port'] = $url['port'];
+		}
+
+		$params['host'] = $url['host'];
+		$params['path'] = $url['path'] . (isset($url['query']) ? $url['query'] : '');
+		$params['method'] = $method;
+		$params['ext'] = (count($appData) > 0) ? http_build_query($appData) : null;
 		$params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : time();
+		die(var_dump($params));
 
 		// Generate the MAC address
 		$mac = self::generateMac($secret, $params);
@@ -112,8 +126,7 @@ class Hawk {
 
 		$params['timestamp'] = $parts['timestamp'];
 
-		if (isset($parts['ext']))
-		{
+		if (isset($parts['ext'])) {
 			$params['ext'] = $parts['ext'];
 		}
 
