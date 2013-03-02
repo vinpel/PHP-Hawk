@@ -2,7 +2,7 @@
 	"name": "alexbilbie/hawk",
 	"description": "Hawk authentication",
 	"version": "1.1",
-	"homepage": "https://github.com/alexbilbie/Hawk",
+	"homepage": "https://github.com/alexbilbie/PHP-Hawk.git",
 	"license": "MIT",
 	"require": {
 		"php": ">=5.3.0"
