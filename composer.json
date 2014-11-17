@@ -1,8 +1,8 @@
 {
-	"name": "alexbilbie/hawk",
+	"name": "vinpel/hawk",
 	"description": "Hawk authentication",
 	"version": "1.1",
-	"homepage": "https://github.com/alexbilbie/PHP-Hawk.git",
+	"homepage": "https://github.com/vinpel/PHP-Hawk.git",
 	"license": "MIT",
 	"require": {
 		"php": ">=5.3.0"
@@ -13,7 +13,7 @@
 	"repositories": [
 		{
 			"type": "git",
-			"url": "https://github.com/alexbilbie/Hawk"
+			"url": "https://github.com/vinpel/Hawk"
 		}
 	],
 	"keywords": [
@@ -29,7 +29,12 @@
 			"email": "hello@alexbilbie.com",
 			"homepage": "http://www.alebilbie.com",
 			"role": "Developer"
-		}
+		},
+		{
+			"name": "Vincent Pélisset",
+			"email": "vinpel@hotmail.com",
+			"role": "Developer"
+		}		
 	],
 	"autoload": {
 		"classmap": ["src/"]
