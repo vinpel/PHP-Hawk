@@ -83,8 +83,9 @@ class Hawk {
     $params=self::generateParams($url,$method);
     $params['nonce'] = ($nonce !=null) ? $nonce : null;
 
-    $params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : decistamp();
+    $params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : decistamp()+3600;
     // Generate the MAC address
+
     $mac = self::generateMac($secret, $params);
     // Make the header string
     $header = 'Hawk id="'.$key.'", ts="'.$params['timestamp'].'", ';
@@ -117,15 +118,18 @@ class Hawk {
       $params['method'] = strtoupper($params['method']);
       // Generate the MAC
       $genMAC = self::generateMac($secret, $params);	//in hex form
-      // Test against the received MAC
-      if ($params['timestamp']>time())
-      throw new \Exception('Expired HawkId');
 
-      if (!hash_equals($genMAC,$parts['mac']))
-      throw new \Exception('Invalid HawkId');
+      //Expired ?
+      if ($params['timestamp'] < decistamp()){
+        throw new \Exception('Expired HawkId');
+      }
+      // Test against the received MAC
+      if (!hash_equals($genMAC,$parts['mac'])){
+        throw new \Exception('Invalid HawkId');
+      }
+
 
     }
-
     /**
     * Parse the Hawk header string into an array of parts
     * @param  string $hawk The Hawk header
