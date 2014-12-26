@@ -64,6 +64,11 @@ class Hawk {
     } else {
       $params['port'] = $url['port'];
     }
+      //if the url have no path, we don't want a notice error
+    if (!isset($url['path'])){
+      $url['path']='';
+    }
+
 
     $params['host'] = $url['host'];
     $params['path'] = $url['path'] . (isset($url['query']) ? '?'.$url['query'] : '').(isset($url['fragment']) ? '#'.$url['fragment'] : '');
@@ -85,7 +90,7 @@ class Hawk {
 
     $params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : decistamp()+3600;
     // Generate the MAC address
-
+    // print_r($params);
     $mac = self::generateMac($secret, $params);
     // Make the header string
     $header = 'Hawk id="'.$key.'", ts="'.$params['timestamp'].'", ';
@@ -117,6 +122,7 @@ class Hawk {
       // Ensure the method parameter is uppercase
       $params['method'] = strtoupper($params['method']);
       // Generate the MAC
+      //print_r($params);exit;
       $genMAC = self::generateMac($secret, $params);	//in hex form
 
       //Expired ?
