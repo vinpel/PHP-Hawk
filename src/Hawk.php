@@ -20,6 +20,7 @@ class Hawk {
   */
   public static function generateMac($secret = '', $params = array(),$after="")
   {
+      //the order of the args are determinant
     $default = array(
       'timestamp'	=>	decistamp(),
       'nonce'	=>	null,
@@ -27,7 +28,6 @@ class Hawk {
       'path'	=>	'',
       'host'	=>	'',
       'port'	=>	80
-
     );
     // Only include the necessary parameters
     foreach (array_keys($default) as $key){
@@ -43,14 +43,12 @@ class Hawk {
     // Generate the data string
     $data = implode("\n", $default);
     $data="hawk.".self::HAWK_VERSION.".header\n".$data."\n";
-    $data.="\n";//no payload
-    $data.="\n";//no ext
+    $data.="\n";     //no payload validation
+    $data.="\n";     //no ext data
     $data.=$after;
-
-
-    // Generate the hash
+      // Generate the hash
     $hash = hash_hmac('sha256', $data, $secret);
-    // Return base64 value
+      // Return base64 value
     return base64_encode(hex2bin($hash));
   }
 
@@ -73,7 +71,6 @@ class Hawk {
     $params['host'] = $url['host'];
     $params['path'] = $url['path'] . (isset($url['query']) ? '?'.$url['query'] : '').(isset($url['fragment']) ? '#'.$url['fragment'] : '');
     $params['method'] = $method;
-
     return $params;
   }
   /**
@@ -88,7 +85,7 @@ class Hawk {
     $params=self::generateParams($url,$method);
     $params['nonce'] = ($nonce !=null) ? $nonce : null;
 
-    $params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : decistamp()+3600;
+    $params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : decistamp();
     // Generate the MAC address
     // print_r($params);
     $mac = self::generateMac($secret, $params);
@@ -126,12 +123,15 @@ class Hawk {
       $genMAC = self::generateMac($secret, $params);	//in hex form
 
       //Expired ?
-      if ($params['timestamp'] < decistamp()){
-        throw new \Exception('Expired HawkId');
+      $epsilon = 0.00001;
+      $timeout=decistamp(microtime(true)+3600);
+      if (abs($params['timestamp']-$timeout) < $epsilon){
+        throw new \Exception('Expired HawkId '.$params['timestamp'] .'<'.$timeout);
       }
+
       // Test against the received MAC
       if (!hash_equals($genMAC,$parts['mac'])){
-        throw new \Exception('Invalid HawkId');
+        throw new \Exception('Invalid HawkId'.$genMAC.' '.$parts['mac']);
       }
 
 
