@@ -83,11 +83,18 @@ class Hawk {
   public static function generateHeader($key , $secret , $method = 'GET',$url= 'http://exemple.org', $nonce=null)
   {
     $params=self::generateParams($url,$method);
-    $params['nonce'] = ($nonce !=null) ? $nonce : null;
+    if ($nonce !==null){
+      $params['nonce']=$nonce;
+    }
+    else{
+      unset ($params['nonce']);
+    }
+
 
     $params['timestamp'] = (isset($params['timestamp'])) ? $params['timestamp'] : decistamp();
     // Generate the MAC address
     // print_r($params);
+
     $mac = self::generateMac($secret, $params);
     // Make the header string
     $header = 'Hawk id="'.$key.'", ts="'.$params['timestamp'].'", ';
@@ -123,16 +130,16 @@ class Hawk {
       $genMAC = self::generateMac($secret, $params);	//in hex form
 
       //Expired ?
-      $epsilon = 0.00001;
       $timeout=decistamp(microtime(true)+3600);
-      if (abs($params['timestamp']-$timeout) < $epsilon){
+      if (abs($params['timestamp']-$timeout) < 0.00001){
         throw new \Exception('Expired HawkId '.$params['timestamp'] .'<'.$timeout);
       }
-
       // Test against the received MAC
       if (!hash_equals($genMAC,$parts['mac'])){
-        throw new \Exception('Invalid HawkId'.$genMAC.' '.$parts['mac']);
+
+        throw new \Exception('Invalid HawkId '.$genMAC.' '.$parts['mac']);
       }
+
 
 
     }
