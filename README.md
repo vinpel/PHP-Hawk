@@ -44,7 +44,7 @@ To generate the header run the following:
 ```php
 $key = 'ghU3QVGgXM';
 $secret = '5jNP12yT17Hx5Md3DCZ5pGI5sui82efX';
-$hawk = Hawk::generateHeader($key, $secret, 'GET', 'https://api.example.com/user/123?foo=bar');
+$hawk = \Hawk\Hawk::generateHeader($key, $secret, 'GET', 'https://api.example.com/user/123?foo=bar');
 ```
 
 You can also pass in additional application specific data with an `ext` key in the array.
@@ -64,13 +64,13 @@ If the request does contain a Hawk authorization header then process it like so:
 $hawk = ''; // the authorisation header
 
 // First parse the header to get the parts from the string
-$hawk_parts = Hawk::parseHeader($hawk);
+$hawk_parts = \Hawk\Hawk::parseHeader($hawk);
 
 // Then with your own function, get the secret for the key from the database
 $secret = getSecret($hawk_parts['id']);
 
 // Now validate the request
-$valid = Hawk::verifyHeader($hawk, array(
+$valid = \Hawk\Hawk::verifyHeader($hawk, array(
 		'host'	=>	'api.example.com',
 		'port'	=>	443,
 		'path'	=>	'/user/123',
