@@ -2,27 +2,33 @@
 
 This is an implementation of the [Hawk HTTP authentication scheme](https://github.com/hueniverse/hawk/).
 
+This fork is compatible with composer.
+
+I've fixed it to be able to echange information with firefox.
+
 ## Install
 
 ### Composer
 
-Include `alexbilbie/hawk` in your composer.json:
+Include this part in your composer.json:
 
 ```json
-{
-	"require": {
-		"alexbilbie/hawk": "*"
-	}
-}
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/vinpel/PHP-Hawk"
+    },
 ```
 
 Then run `composer update`.
 
 ### Git
 
-Run `git clone git://github.com/alexbilbie/PHP-Hawk.git /path/to/php-hawk`
+Run `git clone git://github.com/vinpel/PHP-Hawk.git /path/to/php-hawk`
 
 ## Client Usage
+
+The client haven't change from the original version.
 
 Assume you're hitting up the following endpoint:
 
